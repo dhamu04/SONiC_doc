@@ -1,0 +1,66 @@
+====================================================
+=    STEPS TO BUILD sonic-aboot-broadcom.swi       =
+====================================================
+	
+1. git clone --recurse-submodules https://github.com/sonic-net/sonic-buildimage.git
+2. cd sonic-buildimage
+3. make init
+4. Logs added on below files 
+	sonic-buildimage/src/sonic-sairedis/syncd/syncd_main.cpp
+	sonic-buildimage/src/sonic-sairedis/syncd/Syncd.cpp
+5. make configure PLATFORM=broadcom
+6. make SONIC_BUILD_JOBS=4 target/sonic-aboot-broadcom.swi
+
+sonic-aboot-broadcom.swi has been generated in target folder. 
+
+
+=============================================================
+=    STEPS LOAD sonic-aboot-broadcom.swi ON SONIC DUT       =
+=============================================================
+
+1. copied sonic-aboot-broadcom.swi into publuc_html folder
+2. Reboot SONiC dut
+3. Get into Aboot prompt by pressing Ctrl+C
+4. Aboot# udhcpc 
+5. Aboot# wget -O /mnt/flash/sonic.swi http://10.245.184.10/~prakashkumar-ext/03_10/sonic-aboot-broadcom.swi
+6. Aboot# echo SWI=flash:sonic.swi > /mnt/flash/boot-config
+7. Aboot# sync && reboot
+
+Rebooted the SONiC dut. 
+
+========================================
+=    DOCKER LOAD STEPS                 =
+========================================
+
+1. Build syncd container using below command
+	make SONIC_BUILD_JOBS=4 target/docker-syncd-brcm.gz
+	
+2. copied docker-syncd-brcm.gz to SONiC dut using scp
+3. docker stop syncd 
+
+   docker load -i docker-syncd-brcm.gz   // reload docker image
+   cd /usr/bin       
+   sudo ./syncd.sh start                 // syncd script to start stop docker container
+   
+4. Other docker command used
+	docker images
+	docker stop syncd
+	docker rmi -d <docker image id>
+	docker load -i docker-syncd-brcm.gz
+	sudo ./syncd.sh start
+	
+Warning when i start syncd after removing existing image and load new image
+	admin@sonic:/usr/bin$ sudo ./syncd.sh start
+	Cannot get SYNCD_SHM_SIZE for chip: [b27] in /usr/share/sonic/device/x86_64-broadcom_common/syncd_shm.ini. Skip set SYNCD_SHM_SIZE.
+	Starting existing syncd container with HWSKU Arista-720DT-48S
+	
+	
+Environment used : 
+Build Machine
+	a4 ssh exp 329
+		ssh sonic@192.168.122.188 (ubuntu-vm1)
+
+SONiC DUT used 
+
+	pkz409 (10.240.97.10)
+	pkz477 (10.240.73.139)
