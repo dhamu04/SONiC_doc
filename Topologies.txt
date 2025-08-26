@@ -1,0 +1,610 @@
+  sonic-mgmnt
+  |_ ansible [Deploy SONiC, Setup SONiC testbed, Run SONiC tests]
+  |
+  |_ docs    [Details on each component and the directory structure]
+  |
+  |_ spytest [The SPyTest is a test automation framework designed to validate SONiC]
+  |
+  |_ test_reporting 
+  |
+  |_ test
+      |_ all_scripts
+	  |_ run_script
+      |_ logs
+        
+SONiC testbed deployment and setup, SONiC testing, test report processing.​
+
+Ansible is the main tool powering all the tasks for SONiC testing. ​
+
+
+Deploy and setup testbed​
+
+Interact with various devices in testbed in ansible playbooks and in pytest scripts.​
+
+Ansible​
+
+        Deploy SONiC ,Setup SONiC testbed, Run SONiC tests​
+
+Tests​
+
+        Pytest organization,  test logging, Run tests​
+
+Spytest​
+
+         The SPyTest is a test automation framework designed to validate SONiC​
+
+​
+
+Convert arp_responder.py script to python 3 (#8697)
+2 days ago
+docs
+Add param timeout to ansible library shell_cmds (#8931)
+2 weeks ago
+spytest
+bundle datatable libraries used in spytest reports (#8926)
+2 days ago
+test_reporting
+Update test report uploading scripts to support test case numbers data (
+last month
+tests
+
+
+
+
+
+Management and automation code used for SONiC testbed deployment, tests and reporting.
+
+	ansible
+		This ansible playbook consists of the following functionality:
+		Deploy SONiC
+		Setup SONiC testbed
+		Run SONiC tests
+	
+	docs:
+	
+	Physical Switch Testbed Setup
+	Virtual Switch Testbed Setup
+	Virtual Switch Multiple Devices Testbed Setup
+	Setup sonic-mgmt Docker
+	
+	tests
+		Pytest organization
+		test logging
+		Run tests
+		
+	test_reporting
+	
+	spytest
+	
+		The SPyTest is a test automation framework designed to validate SONiC
+	
+		PyTest Open Source general purpose automation framework
+		It utilizes PyTest as its foundation and leverages various open-source Python packages for tasks such as device access, 
+		CLI output parsing and traffic generation.
+
+
+Deploy the topology for our testbed!
+
+what type of EOS image you are using for your setup:  Example ---> vSONiC
+
+				
+				
+					VM			    VM					   VM			   VM  (L1 Leaf)
+					|   			|						|				|				
+					|				|		4 VM's			| 				|
+					|				|						|				|
+					|				|						|				|
+				-------------------------------------------------------------------
+			   |							     DUT							   |				
+			   |																   |
+			    -------------------------------------------------------------------
+						|  |										|	|
+						|  |..................28 Ports..............|	|
+						|  |										|	|
+			   	-------------------------------------------------------------------
+			   |							     DUT							   |				
+			   |																   |  Servers
+			    -------------------------------------------------------------------
+				
+				The DUT has 32 ports.
+				Requires 4 VMs.
+				The first 28 ports are connected to PTF docker simulating servers.
+				The last 4 ports are connected to 4 VMs simulating T1 devices. 
+				The connection to each of the upstream T1 is configured as a port-channel with single link.
+
+
+first prepare [inventory](/ansible/lab) file and [testbed.csv](/ansible/testbed.csv) file.
+
+
+
+testbed-cli.sh:
+
+				Used to setup/teardown the testbed, as well as add/remove/switch topology.
+				
+				Also testbed-cli.sh gen-mg|deploy-mg allows to generate and deploy minigraph to the DUT based on the topology type.
+				
+				Testbed Inventory:
+
+					ansible/lab: Include all lab DUTs, fanout switches, and testbed server topologies
+
+								 sonic_sn2700_40:
+											sonic_s6000:
+											sonic_s6100:
+											sonic_a7260:
+											sonic_multi_asic:
+											sonic_multi_asic_2:
+											sonic_msft_sup:
+											sonic_msft_lc_100G:
+
+								fanout:
+										  hosts:
+											str-7260-10:
+											  ansible_host: 10.251.0.13
+											str-7260-11:
+											  ansible_host: 10.251.0.234
+											str-msn2700-02:
+											  ansible_host: 10.251.0.235
+											  os: sonic
+											  
+								mgmt:
+										  hosts:
+											console-1:
+											  ansible_host: 192.168.10.1
+											console-2:
+											  ansible_host: 192.168.10.2
+											  os: sonic
+											management-1:
+											  ansible_host: 192.168.10.3
+											  os: sonic
+
+								ptf:
+									  hosts:
+										ptf_ptf1:
+										  ansible_host: 10.255.0.188
+										  ansible_ssh_user: root
+										  ansible_ssh_pass: root
+										ptf_vms1-1:
+										  ansible_host: 10.255.0.178
+										  ansible_ssh_user: root
+										  ansible_ssh_pass: root
+										ptf_vms6-1:
+										  ansible_host: 10.250.0.100
+										  ansible_ssh_user: root
+										  ansible_ssh_pass: root
+
+
+					ansible/veos: all servers and VMs
+					
+							File Location : /sonic-mgmt/ansible/veos_vtb
+							
+							VM inventory file is veos
+					
+							vm_inventory_file having host variables
+							ansible will try to locate some group and host variables under the same folder of the inventory file.
+							
+							veos_vtb -> Containing 
+							
+								1. topologies:
+								  - t1-lag
+								  - t1-56-lag
+								  - t1-64-lag
+								  - t1-8-lag
+								  - t1-64-lag-clet
+								  - t1-backend
+								  - t0
+								  - t0-16
+								  - t0-56
+								  - t0-56-d48c8
+								  - t0-52
+								  - ptf32
+								  - ptf64
+								  - t0-64
+								  - t0-64-32
+								 2.lab:
+								  hosts:
+									vlab-01:
+									vlab-02:
+									vlab-03:
+									vlab-04:
+									vlab-05:
+									vlab-06:
+								
+								  3.ptf:
+									  hosts:  
+										ptf-01:
+										  ansible_host: 10.250.0.102
+										  ansible_hostv6: fec0::ffff:afa:2
+										ptf-02:
+										  ansible_host: 10.250.0.106
+										  ansible_hostv6: fec0::ffff:afa:6
+								  4.sonic
+									  vars:
+										mgmt_subnet_mask_length: 24
+										ansible_connection: multi_passwd_ssh
+										ansible_altpassword: YourPaSsWoRd
+									  hosts:
+										vlab-01:
+										  ansible_host: 10.250.0.101
+										  ansible_hostv6: fec0::ffff:afa:1
+										  type: kvm
+										  hwsku: Force10-S6000
+										  serial_port: 9000
+										  ansible_password: password
+										  ansible_user: admin
+
+									5. vm_host_1:
+									  hosts:
+										STR-ACS-VSERV-01:
+										  ansible_host: 172.17.0.1
+										  ansible_user: use_own_value
+										  vm_host_user: use_own_value	
+
+								    6.hosts:
+										VM0100:
+										  ansible_host: 10.250.0.51
+										VM0101:
+										  ansible_host: 10.250.0.52
+										VM0102:
+										  ansible_host: 10.250.0.53
+										VM0103:
+										  ansible_host: 10.250.0.54
+										VM0104:
+										  ansible_host: 10.250.0.55
+										VM0105:
+										  ansible_host: 10.250.0.56
+
+					ansible/testbed.csv is the topology configuration file for the testbed (Will be replaced by testbed.yaml)
+					
+							Testbed file is testbed.csv or vtestbed.yaml
+						
+							> Different topologies requires different configuration/minigraph on the DUT.
+							> The testbed.yaml file is a configuration file that compiles all the data needed to run the testcases into one file
+							
+							ansible/vtestbed.yaml file 
+									|			
+							conf-name: vms-kvm-t0
+							  group-name: vms6-1
+							  topo: t0
+							  ptf_image_name: docker-ptf
+							  ptf: ptf-01
+							  ptf_ip: 10.250.0.102/24
+							  ptf_ipv6: fec0::ffff:afa:2/64
+							  server: server_1
+							  vm_base: VM0100
+							  dut:
+								- vlab-01
+							  inv_name: veos_vtb
+							  auto_recover: 'False'
+							  comment: Tests virtual switch vm
+					
+							Access the DUT:
+					
+							grep 'vlab-01' -A 4 -B 11 ./vtestbed.yaml
+					
+							conf-name: vms-kvm-t0
+							  group-name: vms6-1
+							  topo: t0
+							  ptf_image_name: docker-ptf
+							  ptf: ptf-01
+							  ptf_ip: 10.250.0.102/24
+							  ptf_ipv6: fec0::ffff:afa:2/64
+							  server: server_1
+							  vm_base: VM0100
+							  dut:
+								- vlab-01
+							  inv_name: veos_vtb
+							  auto_recover: 'False'
+							  comment: Tests virtual switch vm
+					
+						vlab-01 is DUT name
+					
+					ansible/lab ansible/inventory  are the inventory files for the testbed
+
+								
+				 echo "Usage:"
+				 
+				[options] (start-vms | stop-vms) <server-name> <vault-password-file>"
+				[options] (start-topo-vms | stop-topo-vms) <topo-name> <vault-password-file>"
+				[options] (add-topo | remove-topo | renumber-topo | connect-topo) <topo-name> <vault-password-file>"
+				[options] refresh-dut <topo-name> <vault-password-file>"
+				[options] (connect-vms | disconnect-vms) <topo-name> <vault-password-file>"
+				[options] config-vm <topo-name> <vm-name> <vault-password-file>"
+				[options] (gen-mg | deploy-mg | test-mg) <topo-name> <inventory> <vault-password-file>"
+				[options] (create-master | destroy-master) <k8s-server-name> <vault-password-file>"
+ 
+				echo "Options:"
+				
+				-t <tbfile>     : testbed CSV file name (default: 'testbed.csv' or vtestbed.yaml)"
+				-m <vmfile>     : virtual machine file name (default: 'veos')"
+				-k <vmtype>     : vm type (veos|ceos) (default: 'veos')"
+				-n <vm_num>     : vm num (default: 0)"
+				-s <msetnumber> : master set identifier on specified <k8s-server-name> (default: 1)"
+				-d <dir>        : sonic vm directory (default: $HOME/sonic-vm)"
+ 
+				echo "Positional Arguments:"
+				
+				<server-name>         : Hostname of server on which to start VMs"
+				<vault-password-file> : Path to file containing Ansible Vault password"
+				<topo-name>           : Name of the target topology"
+				<inventory>           : Name of the Ansible inventory containing the DUT"
+				<k8s-server-name>     : Server identifier in form k8s_server_{id}, corresponds to k8s_ubuntu inventory group name"
+			
+											
+			<vm_type>:
+			
+					VM type vSONiC is used. (Alternatively, VM type cEOS and vEOS are also supported. cEOS will be explained later).
+				
+				
+				<we want to use the DUT as the name `vlab-01`, the testbed with the name `vms-kvm-t0>
+				
+	
+
+		./testbed-cli.sh -t <testbed_file> -m <vm_inventory_file> -k <vm_type> add-topo <testbed_name> <vault-password-file>
+
+
+		./testbed-cli.sh -t vtestbed.yaml -m veos_vtb -k veos add-topo vms-kvm-t0 password.txt
+
+
+				> Totally 4 KVM VMs will be created in test server after this step. 
+				> According to testbed definition, the base VM is VM0100.
+				> This means that this topology will need VMs: VM0100, VM0101, VM0102, VM0103
+				>each VM is created with 6 interfaces as below
+				
+				
+					x------------------x
+					|	Brodge:br1     |
+					| Shared by all VM |
+					|	  and PTF	   |
+					|			       |
+					x------------------x
+							|
+							|
+							|
+						vm100-m
+				x----------------------x
+				|         mgmt1        |
+				|					   |	
+				|				  E1   | VM100 -t0------------- br-VM100-0(ovs Bridge)
+				|					   |									
+				|					   |
+				|					   |
+				|					   |
+				|					   |
+				|				  E2   | VM100 -t1------------- br-VM100-1(ovs Bridge)        
+				|					   |
+				|		 VM100		   |
+				|					   |
+				|				  E3   | VM100 -t3------------- br-VM100-2(ovs Bridge)
+				|				       |
+				|					   |
+				|					   |
+				|					   |
+				|				  E4   | VM100 -t4------------- br-VM100-3(ovs Bridge)
+				|					   |
+				|					   |
+				|			E5		   |		
+				X----------------------X
+						VM100-back
+							|			br1 ---> Ethernet bridge
+							|			E1 E2 E3 E4 E5 ---> VM interface /view inside VM 
+							| 			VM100 -t0 VM100 -t1 VM100 -t2 VM100 -t3 VM100-back   --> VM interface /view outside VM
+							ptf docker
+
+					> Network --mgmt , dataplane 4 and baclplane
+					>internal name mgmnt1 , E1 E2 E3 E4 E5 	
+					>External Name VM1001-m, VM100-t0,t1,t2,t3 , VM100-back
+					
+					>Totally 4 dataplane interfaces are created for each VM. For the t0 topology, only the first dataplane interface will be used.
+					>The backplane interface is for the VM to learn IP routes from PTF docker.
+					>Creating VLAN interfaces in test server, creating PTF docker, and then binding the VMs, PTF docker and VLAN interfaces together.
+					
+				
+
+Deploy minigraph on the DUT:
+
+			Device Minigraph Generation and Deployment
+
+			Once the topology has been created, we need to give the DUT an initial configuration.
+			Deploy the minigraph.xml to the DUT and save the configuration:
+			
+			Different topologies requires different configuration/minigraph on the DUT. 
+			testbed-cli.sh gen-mg|deploy-mg allows to generate and deploy minigraph to the DUT based on the topology type.
+
+			Before you run the command, first prepare inventory file and testbed.csv file. In the command line, 
+			vms-sn2700-t0 is the testbed name defined in testbed.csv, lab is the inventory file. password.txt is the vault password file.
+			
+			./testbed-cli.sh -t vtestbed.yaml -m veos_vtb deploy-mg vms-kvm-t0 veos_vtb password.txt
+			
+			How its work:
+			
+				testbed info from testbed.csv using the testbed name
+				
+				topology information defined in topology file vars/topo_{{ topology_name}}.yml
+				
+				VMs information from the veos inventory file.
+				
+				Generate minigraph based on minigraph templates in templates folder
+				
+				Deploy minigraph to the DUT.
+				
+				Load the minigraph on DUT.
+				
+				Save the configuration in config db.
+			
+				
+	
+	
+
+How VLAN interface created :
+
+	The VLAN id assigned to each fanout port connected with DUT port.
+	Based on the VLAN assignment, a VLAN interface is created for each of the DUT port.
+	VLAN id of the VLAN interface in test server is the VLAN id assigned to the fanout port connected with the corresponding DUT port.
+	
+	
+	The t0 topology assumes that the DUT has 32 ports. Totally 32 VLAN interfaces are created for a DUT running t0 topology
+	
+	VLAN interfaces created for two testbeds, Each of the testbed has a DUT with 32 ports.
+	
+	The VLAN ids assigned to fanout ports for the first testbed are 100-131 ,  The VLAN ids assigned to fanout ports for the second testbed are 132-163
+	
+	
+	x---------------------------------------------------------------------------------------------------------------------------x
+	|													Test Server																|
+	|																															|	
+	|																															|
+	|		VLAN interface corresponding to SONic DUT ports,            VLAN interface corresponding to SONic DUT ports,        |
+	|        through the 802.1Q tuunels of fanout switches                 through the 802.1Q tuunels of fanout switches     	|		
+	|				TB1																		TB2									|
+	|																															|			
+	|																															|					
+	|		|p4p1.100 |p4p1.101|......|p4p1.131|								 |p4p1.132| p4p1.133| .......|p4p1.163| 		|
+	|		-------------------------------------------------------------------------------------------------------------		|
+	|		|												802.1Q -NIC													|		|		
+	x-----------------------------------------------------------x---------------------------------------------------------------x
+																|
+																|
+																| Trunk
+																|
+																|
+																|
+	
+	Bind the topology:
+				
+				After the VLAN interfaces are created,  create PTF docker and bind them together.
+				
+				
+				https://github.com/sonic-net/sonic-mgmt/blob/master/docs/testbed/img/testbed-t0-internal.png
+				
+				
+				
+				A PTF docker is created for the testbed.
+				For t0 topology, the first 28 DUT ports are designed to connect with downstream servers. 
+				
+				After the topology is deployed, the corresponding 28 VLAN interfaces in test server are moved to network namespace of the PTF docker.
+				
+				They are also renamed to names like eth0 - eth27 inside the PTF docker. 
+				
+				Scripts running in PTF docker can simulate servers send/receive packet to/from the 28 DUT downstream ports.
+				
+				The last 4 ports are designed to connect with upstream neighbors. 
+				Each one of them is attached to the open vSwitch bridge for the first dataplane port of each VM.
+				
+				A pair of veth interfaces are created for each of the neighbor VM. 
+				One end of the veth pair is moved into network namespace of the PTF docker. 
+				The other end of the eth pair is attached to same open vSwitch bridge for the first dataplane port of the neighbor VM. 
+				
+				The veth interfaces moved into PTF docker are renamed to names like eth28 - eth31. 
+				The veth interfaces attached to OVS (Open vSwitch) bridge have name like inje-vms1-1-28 - inje-vms1-1-31.These are the injected interfaces.
+				The middle part vms1-1 of the injected interface name is defined in field group-name of the current testbed in testbed.yaml.
+				
+				
+				Then the ovs bridge for the first data interface of each VM has 3 ports attached:
+					VM dataplane interface
+					PTF injected interface
+					DUT VLAN interface
+					
+					
+					
+							All packets sent out from VM are only forwarded to DUT.
+					x---------------x                           X---------------X                                 
+					|				|		============>		|				|			                 
+					|      VM		|-----------X---------------|				|
+					|				|    <=================     |     DUT       |         
+					|				|		 |  |======>		|				|
+					x---------------x		 |  ||				X---------------x
+											 |	||             All packets sent out from DUT are forwarded to both VM and PTF.
+											 |  |
+										  x-----X------------x
+									      |					 |
+										  |                  |
+										  |		PTF			 |
+					                      |					 |
+										  x------------------x
+									All packets sent out from PTF are only forwarded to DUT
+				
+				
+				FANOUT :
+				
+				The capability of PCIe switch chip set, really, is depending on its SoC. 
+				The SoC in a fan-out switch chip set is designed to handle simple tasks, acting like a gateway between PCIe devices and the host. 
+				The fan-out switch does not do anything special to the data but passing it to the end devices.
+				
+				One 'Fanout' layer-2 switch to connect all SONiC Switch ports and Linux server
+						
+				
+				PTF Packet Testing Framework:
+				
+					PTF is a Python based dataplane test framework. It is based on unittest, which is included in the standard Python distribution.
+					PTF focuses on the dataplane and is independent of OpenFlow.
+					
+					The following software is required to run PTF:
+
+						Python 3.x
+						Scapy 2.4.5 (unless you provide another packet manipulation module)
+						pypcap (optional - VLAN tests will fail without this)
+						tcpdump (optional - Scapy will complain if it's missing)
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

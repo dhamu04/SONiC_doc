@@ -1,0 +1,189 @@
+This ansible playbook consists of the following functionality:
+
+Deploy SONiC
+Setup SONiC testbed
+Run SONiC tests
+
+Ansible playbook layout
+# Ansible top level file and directory structure
+# adapted from http://docs.ansible.com/ansible/playbooks_best_practices.html
+
+prod                      # inventory file for production servers
+pre_prod                  # inventory file for staging environment
+lab                       # inventory file for test lab environment
+
+group_vars/
+   prod                   # here we assign variables to particular groups
+   pre_prod               # groups can be environments, geographical, role based
+   lab
+
+host_vars/
+   hostname1              # if an individual system must have specific variables, put them here
+   hostname2              # (use of host_vars should be avoided)
+
+library/                  # if any custom modules, put them here (optional)
+filter_plugins/           # if any custom filter plugins, put them here (optional)
+
+deploy_sonic.yml          # playbook to initialize a SONiC switch after imaging process is complete
+
+roles/
+    sonic_common/         # common "role" for the SONiC switch, only add tasks here that are for all SONiC switches
+        tasks/            #
+            main.yml      #  <-- tasks file can include smaller files if warranted
+        handlers/         #
+            main.yml      #  <-- handlers file
+        templates/        #  <-- files for use with the template resource
+            ntp.conf.j2   #  <------- templates end in .j2
+        files/            #
+            bar.txt       #  <-- files for use with the copy resource
+            foo.sh        #  <-- script files for use with the script resource
+        vars/             #
+            main.yml      #  <-- variables associated with this role
+        defaults/         #
+            main.yml      #  <-- default lower priority variables for this role
+        meta/             #
+            main.yml      #  <-- role dependencies
+    sonicv2/              # role for installing SONiC v2 components (syncd, orchagent, quagga, etc)
+
+    sonic_test/           # same kind of structure as above, but for the integration test role,
+                          #        see http://github.com/sonic-net/sonic-integrationtest
+    sonic_s6000/          # place Dell s6000 specific tasks here
+    sonic_msn2700/        # place Mellanox msn2700 specific tasks here
+
+Deploy SONiC with ansible playbook:
+
+	By default, the playbook will use public sonicdev debian APT repository and public sonicdev Docker registry.
+	
+	Overview of SONiC deployment, testbed setup and tests
+	
+	Deploy SONiC:
+	
+		Update inventory file with correct information for your environment.
+		|
+		ansible_host = management ip address
+		sonic_hwsku = Supported Hardware SKU, e.g. Force10-S6000, ACS-MSN2700
+		
+		Update group_vars/sonic/variables file with:
+		|
+		Replace sonicadmin_user and ansible_ssh_user with the username you built into the baseimage
+		Replace sonicadmin_initial_password with the password you built into baseimage.
+		Update [ntp,syslog,dns]_servers with a list of your server IPs for these services.
+		Update APT repository if you are using private repo.
+		Update Docker registry if you are using private registry.
+	
+		Update management IP of switch1
+		|
+		Find the ManagementIPInterfaces xml block in minigraph/switch1.xml and change both IP addresses.
+		
+		Update management IP of switch1
+		|
+		Find the ManagementIPInterfaces xml block in minigraph/switch1.xml and change both IP addresses.
+	
+	SONiC testbed setup:
+		This sonic-mgmt repository contains all the scripts for setting up testbed and running feature/functional tests. 
+		Documents under this folder are for explaining the SONiC testbed and running tests.
+		
+		
+		Tiers	Downstream Devices	Upstream Devices
+		T0			Servers				T1 devices
+		T1			T0 devices			T2 devices
+		T2			T1 devices			Regional Gateways (T3 devices)
+		
+		
+		Key components in the physical connection:
+
+			Test servers
+			Fanout switches
+			Root fanout switch (optional)
+			Leaf fanout switch
+			SONiC DUT
+		
+		Key aspects of the physical connection:
+		
+		Every DUT port is connected to one of leaf fanout switches.
+		Every leaf fanout switch has unique VLAN tag for every DUT port.
+		Root fanout switch connects leaf fanout switches and test servers using 802.1Q trunks.
+		The root fanout switch is not mandatory if there is only one testbed or a test server is only used by one testbed.
+		In this case, the leaf fanout switch can be directly connected with NIC of test server by 802.1Q trunk.
+		Any test server can access any DUT port by sending a packet with the port VLAN tag 
+		(The root fanout switch should have this VLAN number enabled on the server trunk)
+
+
+	Topologies : T0 , T1, T2 and M0, MX , dualtor
+	
+	Testbed Setup:
+	
+		Prepare Testbed Server
+			Install Ubuntu 20.04 amd64 on the server. 
+			Install Docker
+			Download an cEOS VM image
+			Build and Run docker-ptf
+			Build and Run docker-sonic-mgmt
+			
+		Prepare Testbed Configuration
+		
+			Deploy physical Fanout Switch VLAN
+			You need to specify all physical connections that exist in the lab before deploying the fanout and running the tests.
+		
+		Setup VMs and add topology on the Server
+			
+			For we are using cEOS now, the start-vms step is combined into add topo step.
+			Update testbed.csv with your data. At the least, you should update the PTF management interface settings.
+			To deploy a topology run: ./testbed-cli.sh -m veos -k ceos add-topo vms-t0 password.txt
+			To remove a topology run: ./testbed-cli.sh -m veos -k ceos remove-topo vms-t0 password.txt
+			
+			When add-topo step finished, you can check the cEOS on your server (outside the docker-sonic-mgmt)
+			
+		Deploy Minigraph
+		
+		
+sonic-mgmnt Repo:
+
+This repository contains code for SONiC testbed deployment and setup, SONiC testing, test report processing.
+The sonic-mgmt repository contains the scripts and tools for configuring the components to setup testbed topology.
+The scripts and tools are based on ansible.
+
+
+Originally, all the tests were written in ansible playbooks. In 2019, pytest was first introduced to replace the ansible playbook based tests. 
+Since then, new tests were all written using pytest. Existing ansible-playbook tests were also converted to pytest gradually. 
+At the time of writing (2020 Nov.), only pytest based new tests are accepted.
+
+Using of pytest does not mean that ansible will no long be used. Ansible is still the core tool power SONiC testing. 
+A new pytest plugin named pytest-ansible was introduced to bridge the power between pytest and ansible. Under the hood, 
+all the pytest based test scripts are still using ansible to interact with various devices in testbed. 
+Ansible playbooks are still used for testbed deployment and configuration. 
+All the customized ansible modules are re-used by the pytest scripts as well.
+
+
+Whats ansible:
+
+Ansible Playbooks are lists of tasks that automatically execute for your specified inventory or groups of hosts.
+One or more Ansible tasks can be combined to make a play—an ordered grouping of tasks mapped to specific hosts—and 
+tasks are executed in the order in which they are written.
+
+An Ansible playbook is an organized unit of scripts that defines the tasks involved in managing a system configuration using the automation tool Ansible. 
+Ansible is a configuration management tool from Red Hat that automates the process of configuring multiple servers and deploying applications.
+
+ sonic-mgmnt
+  |_ ansible 
+  |
+  |_ docs    [Details on each component and the directory structure]
+  |
+  |_ spytest [The SPyTest is a test automation framework designed to validate SONiC]
+  |
+  |_ test_reporting 
+  |
+  |_ test
+      |_ all_scripts
+	  |_ run_script
+      |_ logs
+
+Ansible​:
+	Ansible is the main tool powering all the tasks for SONiC testing. The tasks include:
+
+	Deploy and setup testbed
+
+	Interact with various devices in testbed in ansible playbooks and in pytest scripts.
+	
+	
+pritiv /surrendir

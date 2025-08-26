@@ -1,0 +1,565 @@
+csuser@sonic-mgmnt-vs1:/data/sonic-mgmt/tests$ ./run_tests.sh -n vms-kvm-t0 -d vlab-01 -c bgp/test_bgp_bounce.py -f vtestbed.yaml -i ../ansible/veos_vtb -e "--neighbor_type=sonic"
+=== Preparing DUT for subsequent tests ===
+Running: python3 -m pytest --inventory ../ansible/veos_vtb --host-pattern vlab-01 --testbed vms-kvm-t0 --testbed_file vtestbed.yaml --log-cli-level warning --log-file-level debug --kube_master unset --showlocals --assert plain --show-capture no -rav --allow_recover --ignore=ptftests --ignore=acstests --ignore=saitests --ignore=scripts --ignore=k8s --ignore=sai_qualify --junit-xml=logs/pretest.xml --log-file=logs/pretest.log --topology util --neighbor_type=sonic -m pretest
+====================================================== test session starts ======================================================
+platform linux -- Python 3.8.10, pytest-7.1.3, pluggy-1.2.0
+ansible: 2.9.27
+rootdir: /data/sonic-mgmt/tests, configfile: pytest.ini
+plugins: forked-1.6.0, metadata-3.0.0, allure-pytest-2.8.22, repeat-0.9.1, html-3.2.0, ansible-3.2.1, xdist-1.28.0
+collecting 820 items
+------------------------------------------------------ live log collection ------------------------------------------------------
+04:48:03 bgp.<module>                             L2529 WARNING| [bgp.py] use_2_bytes_asn: True
+collecting 1973 items                                                                                                           04:48:05 conftest.get_autoneg_tests_data          L1475 WARNING| Autoneg tests datafile is missing: metadata/autoneg-test-params.json. "             "Run test_pretest -k test_update_testbed_metadata to create it
+04:48:05 conftest.get_autoneg_tests_data          L1475 WARNING| Autoneg tests datafile is missing: metadata/autoneg-test-params.json. "             "Run test_pretest -k test_update_testbed_metadata to create it
+04:48:05 conftest.get_autoneg_tests_data          L1475 WARNING| Autoneg tests datafile is missing: metadata/autoneg-test-params.json. "             "Run test_pretest -k test_update_testbed_metadata to create it
+04:48:05 conftest.get_autoneg_tests_data          L1475 WARNING| Autoneg tests datafile is missing: metadata/autoneg-test-params.json. "             "Run test_pretest -k test_update_testbed_metadata to create it
+collecting 2945 items                                                                                                           04:48:18 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=int(build_version.split('.')[1]) > 27 and hwsku in ['Arista-7050-QX-32S', 'Arista-7050QX32S-Q32', 'Arista-7050-QX32', 'Arista-7050QX-32S-S4Q31', 'Arista-7060CX-32S-D48C8', 'Arista-7060CX-32S-C32', 'Arista-7060CX-32S-Q32', 'Arista-7060CX-32S-C32-T1'], condition_str=int(build_version.split('.')[1]) > 27 and hwsku in ['Arista-7050-QX-32S', 'Arista-7050QX32S-Q32', 'Arista-7050-QX32', 'Arista-7050QX-32S-S4Q31', 'Arista-7060CX-32S-D48C8', 'Arista-7060CX-32S-C32', 'Arista-7060CX-32S-Q32', 'Arista-7060CX-32S-C32-T1']
+04:48:21 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=len(minigraph_portchannels) == 0 or len(minigraph_portchannels[minigraph_portchannels.keys()[0]]['members']) == 0, condition_str=len(minigraph_portchannels) == 0 or len(minigraph_portchannels[minigraph_portchannels.keys()[0]]['members']) == 0
+04:48:21 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=len(minigraph_portchannels) == 0 or len(minigraph_portchannels[minigraph_portchannels.keys()[0]]['members']) == 0, condition_str=len(minigraph_portchannels) == 0 or len(minigraph_portchannels[minigraph_portchannels.keys()[0]]['members']) == 0
+04:48:21 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=num_asic == 0 or len(minigraph_portchannels[minigraph_portchannels.keys()[0]]['members']) == 0 or asic_type in ['cisco-8000'], condition_str=num_asic == 0 or len(minigraph_portchannels[minigraph_portchannels.keys()[0]]['members']) == 0 or asic_type in ['cisco-8000']
+04:48:21 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=num_asic == 0 or len(minigraph_portchannels[minigraph_portchannels.keys()[0]]['members']) == 0 or asic_type in ['cisco-8000'], condition_str=num_asic == 0 or len(minigraph_portchannels[minigraph_portchannels.keys()[0]]['members']) == 0 or asic_type in ['cisco-8000']
+04:48:26 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=int(build_version.split('.')[1]) <= 33, condition_str=int(build_version.split('.')[1]) <= 33
+04:48:26 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=int(build_version.split('.')[1]) <= 33, condition_str=int(build_version.split('.')[1]) <= 33
+04:48:26 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=int(build_version.split('.')[1]) <= 33, condition_str=int(build_version.split('.')[1]) <= 33
+04:48:27 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=int(build_version.split('.')[1]) <= 33, condition_str=int(build_version.split('.')[1]) <= 33
+04:48:27 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=int(build_version.split('.')[1]) <= 33, condition_str=int(build_version.split('.')[1]) <= 33
+04:48:27 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=int(build_version.split('.')[1]) <= 33, condition_str=int(build_version.split('.')[1]) <= 33
+04:48:27 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=int(build_version.split('.')[1]) <= 33, condition_str=int(build_version.split('.')[1]) <= 33
+04:48:27 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=int(build_version.split('.')[1]) <= 33, condition_str=int(build_version.split('.')[1]) <= 33
+04:48:27 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=int(build_version.split('.')[1]) <= 44, condition_str=int(build_version.split('.')[1]) <= 44
+collected 3174 items / 3164 deselected / 10 selected
+
+test_pretest.py::test_features_state[vlab-01] PASSED                                                                      [ 10%]
+test_pretest.py::test_cleanup_testbed[vlab-01] PASSED                                                                     [ 20%]
+test_pretest.py::test_disable_container_autorestart[vlab-01] PASSED                                                       [ 30%]
+test_pretest.py::test_disable_rsyslog_rate_limit[vlab-01] PASSED                                                          [ 40%]
+test_pretest.py::test_cleanup_cache PASSED                                                                                [ 50%]
+test_pretest.py::test_update_testbed_metadata
+--------------------------------------------------------- live log call ---------------------------------------------------------
+04:50:59 test_pretest.prepare_autonegtest_params  L0340 WARNING| skipped to create autoneg test datafile because of no ports selected
+PASSED                                                                                                                    [ 60%]
+test_pretest.py::test_collect_testbed_prio PASSED                                                                         [ 70%]
+test_pretest.py::test_collect_pfc_pause_delay_params PASSED                                                               [ 80%]
+test_pretest.py::test_update_saithrift_ptf SKIPPED (No URL specified for python saithrift package)                        [ 90%]
+test_pretest.py::test_generate_running_golden_config PASSED                                                               [100%]
+
+======================================================= warnings summary ========================================================
+../../../usr/local/lib/python3.8/dist-packages/_yaml/__init__.py:18
+  /usr/local/lib/python3.8/dist-packages/_yaml/__init__.py:18: DeprecationWarning: The _yaml extension module is now located at yaml._yaml and its location is subject to change.  To use the LibYAML-based parser and emitter, import from `yaml`: `from yaml import CLoader as Loader, CDumper as Dumper`.
+    warnings.warn(
+
+ssh/conftest.py:1
+  /data/sonic-mgmt/tests/ssh/conftest.py:1: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+    import imp
+
+acl/test_acl.py:668
+  /data/sonic-mgmt/tests/acl/test_acl.py:668: PytestDeprecationWarning: @pytest.yield_fixture is deprecated.
+  Use @pytest.fixture instead; they are the same.
+    @pytest.yield_fixture(scope="class", autouse=True)
+
+arp/test_unknown_mac.py:33
+  /data/sonic-mgmt/tests/arp/test_unknown_mac.py:33: DeprecationWarning: inspect.getargspec() is deprecated since Python 3.0, use inspect.signature() or inspect.getfullargspec()
+    names, varargs, keywords, defaults = inspect.getargspec(func)
+
+platform_tests/test_first_time_boot_password_change/test_first_time_boot_password_change.py:20
+  /data/sonic-mgmt/tests/platform_tests/test_first_time_boot_password_change/test_first_time_boot_password_change.py:20: PytestUnknownMarkWarning: Unknown pytest.mark.default_password_change_after_initial_boot - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    pytest.mark.default_password_change_after_initial_boot
+
+voq/test_voq_ipfwd.py:711
+  /data/sonic-mgmt/tests/voq/test_voq_ipfwd.py:711: PytestUnknownMarkWarning: Unknown pytest.mark.express - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    pytest.param(128, 64, marks=pytest.mark.express),
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase test_vs_chassis_setup.py::test_midplane is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase test_vs_chassis_setup.py::test_chassisdb is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase ixia/test_tgen.py::test_tgen is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase ixia/ixanvl/test_bgp_conformance.py::test_anvl_bgp_run is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase snappi_tests/test_multidut_snappi.py::test_snappi[linecard_configuration_set0-chassis_multi_line_card_multi_asic] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase snappi_tests/test_snappi.py::test_snappi is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase snappi_tests/bgp/test_bgp_local_link_failover.py::test_bgp_convergence_for_local_link_failover[speed_100_gbps-IPv4-1000-1-2] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase snappi_tests/bgp/test_bgp_remote_link_failover.py::test_bgp_convergence_for_remote_link_failover[speed_100_gbps-IPv4-1000-1-2] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase snappi_tests/bgp/test_bgp_rib_in_capacity.py::test_RIB_IN_capacity[speed_100_gbps-IPv4-1000-1000-2] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase snappi_tests/bgp/test_bgp_rib_in_convergence.py::test_rib_in_convergence[speed_100_gbps-IPv4-1000-1-2] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase snappi_tests/lacp/test_add_remove_link_from_dut.py::test_lacp_add_remove_link_from_dut[speed_100_gbps-1-1000-4] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase snappi_tests/lacp/test_add_remove_link_physically.py::test_lacp_add_remove_link_physically[speed_100_gbps-1-1000-4] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase snappi_tests/lacp/test_lacp_timers_effect.py::test_lacp_timers[90-1-speed_100_gbps-1-1000-4] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_16k_routes[v4_in_v4] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_512_nexthop_groups[v4_in_v4] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_128_group_members[v4_in_v4] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_16k_routes[v4_in_v6] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_512_nexthop_groups[v4_in_v6] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_128_group_members[v4_in_v6] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_16k_routes[v6_in_v4] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_512_nexthop_groups[v6_in_v4] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_128_group_members[v6_in_v4] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_16k_routes[v6_in_v6] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_512_nexthop_groups[v6_in_v6] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_128_group_members[v6_in_v6] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+---------------------------------- generated xml file: /data/sonic-mgmt/tests/logs/pretest.xml ----------------------------------
+==================================================== short test summary info ====================================================
+SKIPPED [1] test_pretest.py:302: No URL specified for python saithrift package
+============================ 9 passed, 1 skipped, 3164 deselected, 31 warnings in 187.12s (0:03:07) =============================
+INFO:root:Can not get Allure report URL. Please check logs
+=== Running tests in groups ===
+Running: python3 -m pytest bgp/test_bgp_bounce.py --inventory ../ansible/veos_vtb --host-pattern vlab-01 --testbed vms-kvm-t0 --testbed_file vtestbed.yaml --log-cli-level warning --log-file-level debug --kube_master unset --showlocals --assert plain --show-capture no -rav --allow_recover --ignore=ptftests --ignore=acstests --ignore=saitests --ignore=scripts --ignore=k8s --ignore=sai_qualify --junit-xml=logs/tr.xml --log-file=logs/test.log --neighbor_type=sonic
+====================================================== test session starts ======================================================
+platform linux -- Python 3.8.10, pytest-7.1.3, pluggy-1.2.0
+ansible: 2.9.27
+rootdir: /data/sonic-mgmt/tests, configfile: pytest.ini
+plugins: forked-1.6.0, metadata-3.0.0, allure-pytest-2.8.22, repeat-0.9.1, html-3.2.0, ansible-3.2.1, xdist-1.28.0
+collecting ... /usr/local/lib/python2.7/dist-packages/ansible/parsing/vault/__init__.py:44: CryptographyDeprecationWarning: Python 2 is no longer supported by the Python core team. Support for it is now deprecated in cryptography, and will be removed in the next release.
+  from cryptography.exceptions import InvalidSignature
+/usr/local/lib/python2.7/dist-packages/ansible/parsing/vault/__init__.py:44: CryptographyDeprecationWarning: Python 2 is no longer supported by the Python core team. Support for it is now deprecated in cryptography, and will be removed in the next release.
+  from cryptography.exceptions import InvalidSignature
+/usr/local/lib/python2.7/dist-packages/ansible/parsing/vault/__init__.py:44: CryptographyDeprecationWarning: Python 2 is no longer supported by the Python core team. Support for it is now deprecated in cryptography, and will be removed in the next release.
+  from cryptography.exceptions import InvalidSignature
+/usr/local/lib/python2.7/dist-packages/ansible/parsing/vault/__init__.py:44: CryptographyDeprecationWarning: Python 2 is no longer supported by the Python core team. Support for it is now deprecated in cryptography, and will be removed in the next release.
+  from cryptography.exceptions import InvalidSignature
+/usr/local/lib/python2.7/dist-packages/ansible/parsing/vault/__init__.py:44: CryptographyDeprecationWarning: Python 2 is no longer supported by the Python core team. Support for it is now deprecated in cryptography, and will be removed in the next release.
+  from cryptography.exceptions import InvalidSignature
+collected 1 item
+
+bgp/test_bgp_bounce.py::test_bgp_bounce
+--------------------------------------------------------- live log call ---------------------------------------------------------
+04:53:45 __init__.pytest_runtest_call             L0040 ERROR  | Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/_pytest/python.py", line 1761, in runtest
+    self.ihook.pytest_pyfunc_call(pyfuncitem=self)
+  File "/usr/local/lib/python3.8/dist-packages/pluggy/_hooks.py", line 433, in __call__
+    return self._hookexec(self.name, self._hookimpls, kwargs, firstresult)
+  File "/usr/local/lib/python3.8/dist-packages/pluggy/_manager.py", line 112, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  File "/usr/local/lib/python3.8/dist-packages/pluggy/_callers.py", line 116, in _multicall
+    raise exception.with_traceback(exception.__traceback__)
+  File "/usr/local/lib/python3.8/dist-packages/pluggy/_callers.py", line 80, in _multicall
+    res = hook_impl.function(*args)
+  File "/usr/local/lib/python3.8/dist-packages/_pytest/python.py", line 192, in pytest_pyfunc_call
+    result = testfunction(**testargs)
+  File "/data/sonic-mgmt/tests/bgp/test_bgp_bounce.py", line 54, in test_bgp_bounce
+    no_export_route_num = get_no_export_output(vm_host)
+  File "/data/sonic-mgmt/tests/bgp/bgp_helpers.py", line 93, in get_no_export_output
+    out = vm_host.eos_command(commands=['show ip bgp community no-export'])["stdout"]
+  File "/data/sonic-mgmt/tests/common/devices/base.py", line 127, in _run
+    raise RunAnsibleModuleFail("run module {} failed".format(self.module_name), res)
+tests.common.errors.RunAnsibleModuleFail: run module eos_command failed, Ansible Results =>
+{"changed": false, "failed": true, "msg": "Connection type ssh is not valid for this module"}
+
+FAILED                                                                                                                    [100%]
+
+=========================================================== FAILURES ============================================================
+________________________________________________________ test_bgp_bounce ________________________________________________________
+
+duthost = <MultiAsicSonicHost vlab-01>
+nbrhosts = {'ARISTA01T1': <SonicHost VM0100>, 'ARISTA02T1': <SonicHost VM0101>, 'ARISTA03T1': <SonicHost VM0102>, 'ARISTA04T1': <SonicHost VM0103>}
+deploy_plain_bgp_config = 'tmp/bgp/bgp_plain.j2', deploy_no_export_bgp_config = 'tmp/bgp/bgp_no_export.j2'
+backup_bgp_config = None
+
+    def test_bgp_bounce(duthost, nbrhosts, deploy_plain_bgp_config, deploy_no_export_bgp_config, backup_bgp_config):
+        """
+        Verify bgp community no export functionality
+
+        Test steps:
+            1.) Generate bgp plain config
+            2.) Generate bgp no export config
+            3.) Apply bgp plain config
+            4.) Get no export routes on one of the ToR VM
+            5.) Apply bgp no export config
+            6.) Get no export routes on one of the ToR VM
+            7.) Apply default bgp config
+
+        Pass Criteria: After appling bgp no export config ToR VM gets no export routes
+        """
+        bgp_plain_config = deploy_plain_bgp_config
+        bgp_no_export_config = deploy_no_export_bgp_config
+
+        # Get random ToR VM
+        vm_name = random.choice([vm_name for vm_name in list(nbrhosts.keys()) if vm_name.endswith('T1')])
+        print("vm_name",vm_name)
+        vm_host = nbrhosts[vm_name]['host']
+
+        print("vm_host",vm_host)
+
+        # Start all bgp sessions
+        duthost.shell('config bgp startup all')
+
+        # Apply bgp plain config
+        apply_bgp_config(duthost, bgp_plain_config)
+
+        # Give additional delay for routes to be propogated
+        time.sleep(BGP_ANNOUNCE_TIME)
+
+        # Take action on one of the ToR VM
+>       no_export_route_num = get_no_export_output(vm_host)
+
+backup_bgp_config = None
+bgp_no_export_config = 'tmp/bgp/bgp_no_export.j2'
+bgp_plain_config = 'tmp/bgp/bgp_plain.j2'
+deploy_no_export_bgp_config = 'tmp/bgp/bgp_no_export.j2'
+deploy_plain_bgp_config = 'tmp/bgp/bgp_plain.j2'
+duthost    = <MultiAsicSonicHost vlab-01>
+nbrhosts   = {'ARISTA01T1': <SonicHost VM0100>, 'ARISTA02T1': <SonicHost VM0101>, 'ARISTA03T1': <SonicHost VM0102>, 'ARISTA04T1': <SonicHost VM0103>}
+vm_host    = <SonicHost VM0100>
+vm_name    = 'ARISTA01T1'
+
+bgp/test_bgp_bounce.py:54:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+bgp/bgp_helpers.py:93: in get_no_export_output
+    out = vm_host.eos_command(commands=['show ip bgp community no-export'])["stdout"]
+        vm_host    = <SonicHost VM0100>
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <SonicHost VM0100>, module_args = [], complex_args = {'commands': ['show ip bgp community no-export']}
+previous_frame = <frame at 0x3b5dce0, file '/data/sonic-mgmt/tests/bgp/bgp_helpers.py', line 93, code get_no_export_output>
+filename = '/data/sonic-mgmt/tests/bgp/bgp_helpers.py', line_number = 93, function_name = 'get_no_export_output'
+lines = ['    out = vm_host.eos_command(commands=[\'show ip bgp community no-export\'])["stdout"]\n'], index = 0, verbose = True
+module_ignore_errors = False, module_async = False
+
+    def _run(self, *module_args, **complex_args):
+
+        previous_frame = inspect.currentframe().f_back
+        filename, line_number, function_name, lines, index = inspect.getframeinfo(previous_frame)
+
+        verbose = complex_args.pop('verbose', True)
+
+        if verbose:
+            logger.debug(
+                "{}::{}#{}: [{}] AnsibleModule::{}, args={}, kwargs={}".format(
+                    filename,
+                    function_name,
+                    line_number,
+                    self.hostname,
+                    self.module_name,
+                    json.dumps(module_args, cls=AnsibleHostBase.CustomEncoder),
+                    json.dumps(complex_args, cls=AnsibleHostBase.CustomEncoder)
+                )
+            )
+        else:
+            logger.debug(
+                "{}::{}#{}: [{}] AnsibleModule::{} executing...".format(
+                    filename,
+                    function_name,
+                    line_number,
+                    self.hostname,
+                    self.module_name
+                )
+            )
+
+        module_ignore_errors = complex_args.pop('module_ignore_errors', False)
+        module_async = complex_args.pop('module_async', False)
+
+        if module_async:
+            def run_module(module_args, complex_args):
+                return self.module(*module_args, **complex_args)[self.hostname]
+            pool = ThreadPool()
+            result = pool.apply_async(run_module, (module_args, complex_args))
+            return pool, result
+
+        module_args = json.loads(json.dumps(module_args, cls=AnsibleHostBase.CustomEncoder))
+        complex_args = json.loads(json.dumps(complex_args, cls=AnsibleHostBase.CustomEncoder))
+        res = self.module(*module_args, **complex_args)[self.hostname]
+
+        if verbose:
+            logger.debug(
+                "{}::{}#{}: [{}] AnsibleModule::{} Result => {}".format(
+                    filename,
+                    function_name,
+                    line_number,
+                    self.hostname,
+                    self.module_name, json.dumps(res, cls=AnsibleHostBase.CustomEncoder)
+                )
+            )
+        else:
+            logger.debug(
+                "{}::{}#{}: [{}] AnsibleModule::{} done, is_failed={}, rc={}".format(
+                    filename,
+                    function_name,
+                    line_number,
+                    self.hostname,
+                    self.module_name,
+                    res.is_failed,
+                    res.get('rc', None)
+                )
+            )
+
+        if (res.is_failed or 'exception' in res) and not module_ignore_errors:
+>           raise RunAnsibleModuleFail("run module {} failed".format(self.module_name), res)
+E           tests.common.errors.RunAnsibleModuleFail: run module eos_command failed, Ansible Results =>
+E           {"changed": false, "failed": true, "msg": "Connection type ssh is not valid for this module"}
+
+complex_args = {'commands': ['show ip bgp community no-export']}
+filename   = '/data/sonic-mgmt/tests/bgp/bgp_helpers.py'
+function_name = 'get_no_export_output'
+index      = 0
+line_number = 93
+lines      = ['    out = vm_host.eos_command(commands=[\'show ip bgp community no-export\'])["stdout"]\n']
+module_args = []
+module_async = False
+module_ignore_errors = False
+previous_frame = <frame at 0x3b5dce0, file '/data/sonic-mgmt/tests/bgp/bgp_helpers.py', line 93, code get_no_export_output>
+res        = {'failed': True, 'msg': 'Connection type ssh is not valid for this module', '_ansible_no_log': False, 'changed': False}
+self       = <SonicHost VM0100>
+verbose    = True
+
+common/devices/base.py:127: RunAnsibleModuleFail
+======================================================= warnings summary ========================================================
+../../../usr/local/lib/python3.8/dist-packages/_yaml/__init__.py:18
+  /usr/local/lib/python3.8/dist-packages/_yaml/__init__.py:18: DeprecationWarning: The _yaml extension module is now located at yaml._yaml and its location is subject to change.  To use the LibYAML-based parser and emitter, import from `yaml`: `from yaml import CLoader as Loader, CDumper as Dumper`.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+------------------------------------ generated xml file: /data/sonic-mgmt/tests/logs/tr.xml -------------------------------------
+==================================================== short test summary info ====================================================
+FAILED bgp/test_bgp_bounce.py::test_bgp_bounce - tests.common.errors.RunAnsibleModuleFail: run module eos_command failed, Ansi...
+=========================================== 1 failed, 1 warning in 182.97s (0:03:02) ============================================
+INFO:root:Can not get Allure report URL. Please check logs
+=== Cleaning up DUT after tests ===
+Running: python3 -m pytest --inventory ../ansible/veos_vtb --host-pattern vlab-01 --testbed vms-kvm-t0 --testbed_file vtestbed.yaml --log-cli-level warning --log-file-level debug --kube_master unset --showlocals --assert plain --show-capture no -rav --allow_recover --ignore=ptftests --ignore=acstests --ignore=saitests --ignore=scripts --ignore=k8s --ignore=sai_qualify --junit-xml=logs/posttest.xml --log-file=logs/posttest.log --topology util --neighbor_type=sonic -m posttest
+====================================================== test session starts ======================================================
+platform linux -- Python 3.8.10, pytest-7.1.3, pluggy-1.2.0
+ansible: 2.9.27
+rootdir: /data/sonic-mgmt/tests, configfile: pytest.ini
+plugins: forked-1.6.0, metadata-3.0.0, allure-pytest-2.8.22, repeat-0.9.1, html-3.2.0, ansible-3.2.1, xdist-1.28.0
+collecting 420 items
+------------------------------------------------------ live log collection ------------------------------------------------------
+04:54:16 bgp.<module>                             L2529 WARNING| [bgp.py] use_2_bytes_asn: True
+collecting 1973 items                                                                                                           04:54:19 conftest.get_autoneg_tests_data          L1475 WARNING| Autoneg tests datafile is missing: metadata/autoneg-test-params.json. "             "Run test_pretest -k test_update_testbed_metadata to create it
+04:54:19 conftest.get_autoneg_tests_data          L1475 WARNING| Autoneg tests datafile is missing: metadata/autoneg-test-params.json. "             "Run test_pretest -k test_update_testbed_metadata to create it
+04:54:19 conftest.get_autoneg_tests_data          L1475 WARNING| Autoneg tests datafile is missing: metadata/autoneg-test-params.json. "             "Run test_pretest -k test_update_testbed_metadata to create it
+04:54:19 conftest.get_autoneg_tests_data          L1475 WARNING| Autoneg tests datafile is missing: metadata/autoneg-test-params.json. "             "Run test_pretest -k test_update_testbed_metadata to create it
+collecting 2987 items                                                                                                           04:54:34 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=int(build_version.split('.')[1]) > 27 and hwsku in ['Arista-7050-QX-32S', 'Arista-7050QX32S-Q32', 'Arista-7050-QX32', 'Arista-7050QX-32S-S4Q31', 'Arista-7060CX-32S-D48C8', 'Arista-7060CX-32S-C32', 'Arista-7060CX-32S-Q32', 'Arista-7060CX-32S-C32-T1'], condition_str=int(build_version.split('.')[1]) > 27 and hwsku in ['Arista-7050-QX-32S', 'Arista-7050QX32S-Q32', 'Arista-7050-QX32', 'Arista-7050QX-32S-S4Q31', 'Arista-7060CX-32S-D48C8', 'Arista-7060CX-32S-C32', 'Arista-7060CX-32S-Q32', 'Arista-7060CX-32S-C32-T1']
+04:54:37 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=len(minigraph_portchannels) == 0 or len(minigraph_portchannels[minigraph_portchannels.keys()[0]]['members']) == 0, condition_str=len(minigraph_portchannels) == 0 or len(minigraph_portchannels[minigraph_portchannels.keys()[0]]['members']) == 0
+04:54:37 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=len(minigraph_portchannels) == 0 or len(minigraph_portchannels[minigraph_portchannels.keys()[0]]['members']) == 0, condition_str=len(minigraph_portchannels) == 0 or len(minigraph_portchannels[minigraph_portchannels.keys()[0]]['members']) == 0
+04:54:37 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=num_asic == 0 or len(minigraph_portchannels[minigraph_portchannels.keys()[0]]['members']) == 0 or asic_type in ['cisco-8000'], condition_str=num_asic == 0 or len(minigraph_portchannels[minigraph_portchannels.keys()[0]]['members']) == 0 or asic_type in ['cisco-8000']
+04:54:37 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=num_asic == 0 or len(minigraph_portchannels[minigraph_portchannels.keys()[0]]['members']) == 0 or asic_type in ['cisco-8000'], condition_str=num_asic == 0 or len(minigraph_portchannels[minigraph_portchannels.keys()[0]]['members']) == 0 or asic_type in ['cisco-8000']
+04:54:40 issue.is_active                          L0085 ERROR  | Get details for https://github.com/sonic-net/sonic-mgmt/issues/6518 failed with: HTTPError('403 Client Error: Forbidden for url: https://api.github.com/repos/sonic-net/sonic-mgmt/issues/6518')
+04:54:40 issue.is_active                          L0085 ERROR  | Get details for https://github.com/sonic-net/sonic-mgmt/issues/6218 failed with: HTTPError('403 Client Error: Forbidden for url: https://api.github.com/repos/sonic-net/sonic-mgmt/issues/6218')
+04:54:41 issue.is_active                          L0085 ERROR  | Get details for https://github.com/sonic-net/sonic-mgmt/issues/7297 failed with: HTTPError('403 Client Error: Forbidden for url: https://api.github.com/repos/sonic-net/sonic-mgmt/issues/7297')
+04:54:41 issue.is_active                          L0085 ERROR  | Get details for https://github.com/sonic-net/sonic-mgmt/issues/7546 failed with: HTTPError('403 Client Error: Forbidden for url: https://api.github.com/repos/sonic-net/sonic-mgmt/issues/7546')
+04:54:41 issue.is_active                          L0085 ERROR  | Get details for https://github.com/sonic-net/sonic-mgmt/issues/7811 failed with: HTTPError('403 Client Error: Forbidden for url: https://api.github.com/repos/sonic-net/sonic-mgmt/issues/7811')
+04:54:42 issue.is_active                          L0085 ERROR  | Get details for https://github.com/sonic-net/sonic-buildimage/issues/4930 failed with: HTTPError('403 Client Error: Forbidden for url: https://api.github.com/repos/sonic-net/sonic-buildimage/issues/4930')
+04:54:42 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=int(build_version.split('.')[1]) <= 33, condition_str=int(build_version.split('.')[1]) <= 33
+04:54:42 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=int(build_version.split('.')[1]) <= 33, condition_str=int(build_version.split('.')[1]) <= 33
+04:54:42 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=int(build_version.split('.')[1]) <= 33, condition_str=int(build_version.split('.')[1]) <= 33
+04:54:43 issue.is_active                          L0085 ERROR  | Get details for https://github.com/paramiko/paramiko/issues/1508 failed with: HTTPError('403 Client Error: Forbidden for url: https://api.github.com/repos/paramiko/paramiko/issues/1508')
+04:54:43 issue.is_active                          L0085 ERROR  | Get details for https://github.com/sonic-net/sonic-mgmt/issues/4469 failed with: HTTPError('403 Client Error: Forbidden for url: https://api.github.com/repos/sonic-net/sonic-mgmt/issues/4469')
+04:54:43 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=int(build_version.split('.')[1]) <= 33, condition_str=int(build_version.split('.')[1]) <= 33
+04:54:43 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=int(build_version.split('.')[1]) <= 33, condition_str=int(build_version.split('.')[1]) <= 33
+04:54:43 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=int(build_version.split('.')[1]) <= 33, condition_str=int(build_version.split('.')[1]) <= 33
+04:54:43 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=int(build_version.split('.')[1]) <= 33, condition_str=int(build_version.split('.')[1]) <= 33
+04:54:43 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=int(build_version.split('.')[1]) <= 33, condition_str=int(build_version.split('.')[1]) <= 33
+04:54:44 issue.is_active                          L0085 ERROR  | Get details for https://github.com/sonic-net/sonic-mgmt/issues/6479 failed with: HTTPError('403 Client Error: Forbidden for url: https://api.github.com/repos/sonic-net/sonic-mgmt/issues/6479')
+04:54:44 __init__.evaluate_condition              L0498 ERROR  | Failed to evaluate condition, raw_condition=int(build_version.split('.')[1]) <= 44, condition_str=int(build_version.split('.')[1]) <= 44
+04:54:44 issue.is_active                          L0085 ERROR  | Get details for https://github.com/sonic-net/sonic-mgmt/issues/8374 failed with: HTTPError('403 Client Error: Forbidden for url: https://api.github.com/repos/sonic-net/sonic-mgmt/issues/8374')
+collected 3174 items / 3171 deselected / 3 selected
+
+test_posttest.py::test_collect_techsupport[vlab-01] PASSED                                                                [ 33%]
+test_posttest.py::test_restore_container_autorestart[vlab-01] PASSED                                                      [ 66%]
+test_posttest.py::test_recover_rsyslog_rate_limit[vlab-01] SKIPPED (Skip on vs testbed)                                   [100%]
+
+======================================================= warnings summary ========================================================
+../../../usr/local/lib/python3.8/dist-packages/_yaml/__init__.py:18
+  /usr/local/lib/python3.8/dist-packages/_yaml/__init__.py:18: DeprecationWarning: The _yaml extension module is now located at yaml._yaml and its location is subject to change.  To use the LibYAML-based parser and emitter, import from `yaml`: `from yaml import CLoader as Loader, CDumper as Dumper`.
+    warnings.warn(
+
+ssh/conftest.py:1
+  /data/sonic-mgmt/tests/ssh/conftest.py:1: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+    import imp
+
+acl/test_acl.py:668
+  /data/sonic-mgmt/tests/acl/test_acl.py:668: PytestDeprecationWarning: @pytest.yield_fixture is deprecated.
+  Use @pytest.fixture instead; they are the same.
+    @pytest.yield_fixture(scope="class", autouse=True)
+
+arp/test_unknown_mac.py:33
+  /data/sonic-mgmt/tests/arp/test_unknown_mac.py:33: DeprecationWarning: inspect.getargspec() is deprecated since Python 3.0, use inspect.signature() or inspect.getfullargspec()
+    names, varargs, keywords, defaults = inspect.getargspec(func)
+
+platform_tests/test_first_time_boot_password_change/test_first_time_boot_password_change.py:20
+  /data/sonic-mgmt/tests/platform_tests/test_first_time_boot_password_change/test_first_time_boot_password_change.py:20: PytestUnknownMarkWarning: Unknown pytest.mark.default_password_change_after_initial_boot - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    pytest.mark.default_password_change_after_initial_boot
+
+voq/test_voq_ipfwd.py:711
+  /data/sonic-mgmt/tests/voq/test_voq_ipfwd.py:711: PytestUnknownMarkWarning: Unknown pytest.mark.express - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    pytest.param(128, 64, marks=pytest.mark.express),
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase test_vs_chassis_setup.py::test_midplane is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase test_vs_chassis_setup.py::test_chassisdb is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase ixia/test_tgen.py::test_tgen is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase ixia/ixanvl/test_bgp_conformance.py::test_anvl_bgp_run is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase snappi_tests/test_multidut_snappi.py::test_snappi[linecard_configuration_set0-chassis_multi_line_card_multi_asic] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase snappi_tests/test_snappi.py::test_snappi is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase snappi_tests/bgp/test_bgp_local_link_failover.py::test_bgp_convergence_for_local_link_failover[speed_100_gbps-IPv4-1000-1-2] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase snappi_tests/bgp/test_bgp_remote_link_failover.py::test_bgp_convergence_for_remote_link_failover[speed_100_gbps-IPv4-1000-1-2] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase snappi_tests/bgp/test_bgp_rib_in_capacity.py::test_RIB_IN_capacity[speed_100_gbps-IPv4-1000-1000-2] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase snappi_tests/bgp/test_bgp_rib_in_convergence.py::test_rib_in_convergence[speed_100_gbps-IPv4-1000-1-2] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase snappi_tests/lacp/test_add_remove_link_from_dut.py::test_lacp_add_remove_link_from_dut[speed_100_gbps-1-1000-4] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase snappi_tests/lacp/test_add_remove_link_physically.py::test_lacp_add_remove_link_physically[speed_100_gbps-1-1000-4] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase snappi_tests/lacp/test_lacp_timers_effect.py::test_lacp_timers[90-1-speed_100_gbps-1-1000-4] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_16k_routes[v4_in_v4] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_512_nexthop_groups[v4_in_v4] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_128_group_members[v4_in_v4] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_16k_routes[v4_in_v6] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_512_nexthop_groups[v4_in_v6] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_128_group_members[v4_in_v6] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_16k_routes[v6_in_v4] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_512_nexthop_groups[v6_in_v4] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_128_group_members[v6_in_v4] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_16k_routes[v6_in_v6] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_512_nexthop_groups[v6_in_v6] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+common/plugins/custom_markers/__init__.py:88
+  /data/sonic-mgmt/tests/common/plugins/custom_markers/__init__.py:88: UserWarning: testcase vxlan/test_vxlan_crm.py::Test_VxLAN_Crm::test_crm_128_group_members[v6_in_v6] is skipped when no topology marker is given
+    warnings.warn(warn_msg)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+--------------------------------- generated xml file: /data/sonic-mgmt/tests/logs/posttest.xml ----------------------------------
+==================================================== short test summary info ====================================================
+SKIPPED [1] common/helpers/assertions.py:14: Skip on vs testbed
+============================ 2 passed, 1 skipped, 3171 deselected, 31 warnings in 176.81s (0:02:56) =============================
+INFO:root:Can not get Allure report URL. Please check logs
+csuser@sonic-mgmnt-vs1:/data/sonic-mgmt/tests$
